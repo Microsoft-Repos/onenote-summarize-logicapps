@@ -16,6 +16,8 @@ if (!isset($_GET['apikey']) || $_GET['apikey'] != getenv('APPSETTING_apikey')) {
     exit( 'Not authorized' );
 }
 
+
+
 print "<pre>";
 print "Headers: <br>";
 print_r($_HEADERS);
@@ -25,4 +27,6 @@ print "Server: <br>";
 print_r($_SERVER);
 print "Post: <br>";
 print_r($_POST);
+print "Body: <br>";
+print json_encode(file_get_contents('php://input'), JSON_PRETTY_PRINT);
 print "</pre>";

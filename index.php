@@ -17,16 +17,6 @@ if (!isset($_GET['apikey']) || $_GET['apikey'] != getenv('APPSETTING_apikey')) {
 }
 
 
-
 print "<pre>";
-print "Headers: <br>";
-print_r($_HEADERS);
-print "Request: <br>";
-print_r($_REQUEST);
-print "Server: <br>";
-print_r($_SERVER);
-print "Post: <br>";
-print_r($_POST);
-print "Body: <br>";
-print json_encode(file_get_contents('php://input'), JSON_PRETTY_PRINT);
+print_r(json_decode(file_get_contents('php://input')));
 print "</pre>";

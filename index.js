@@ -12,9 +12,9 @@ var server = http.createServer(function(request, response) {
 
     var url_parts = url.parse(request.url, true);
     var query = url_parts.query;
-    var apikey = req.query.apikey;
+    var apikey = query.apikey;
 
-    console.log(process.env);
+    console.log(query);
     response.writeHead(200, {"Content-Type": "text/plain"});
     response.end("Hello World!: " + apikey + " " + process.env.APPSETTING_apikey);
 

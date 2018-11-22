@@ -11,7 +11,7 @@ exports.isValidSession = function(request) {
         return false;
     }
 
-    return true;
+    return apikey;
 };
 
 exports.tryParseJSON = function(jsonString) {

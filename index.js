@@ -162,8 +162,9 @@ app.post('/pages', jsonParser, function (req, res) {
                     res.status(500).send("Application Error")
                     return;
                 };
-    
-                console.log("Inserted notebooks record with id: " + record.insertedId);
+                
+                console.log(record);
+                console.log("Inserted/updated notebooks record with id: " + record.insertedId);
     
                 res.send("Saved");
                 return;
@@ -184,7 +185,7 @@ app.post('/pages', jsonParser, function (req, res) {
                         return;
                     };
         
-                    console.log("Inserted sectionGroups record with id: " + record.insertedId);
+                    console.log("Inserted/updated sectionGroups record with id: " + record.insertedId);
         
                     res.send("Saved");
                     return;
@@ -205,7 +206,7 @@ app.post('/pages', jsonParser, function (req, res) {
                     return;
                 };
     
-                console.log("Inserted sections record with id: " + record.insertedId);
+                console.log("Inserted/updated sections record with id: " + record.insertedId);
     
                 res.send("Saved");
                 return;
@@ -226,7 +227,7 @@ app.post('/pages', jsonParser, function (req, res) {
                     return;
                 };
     
-                console.log("Inserted pages record with id: " + record.insertedId);
+                console.log("Inserted/updated pages record with id: " + record.insertedId);
     
                 res.send("Saved");
                 return;

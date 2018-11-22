@@ -8,6 +8,7 @@
 var http = require('http');
 var url = require('url');
 var mongoClient = require("mongodb").MongoClient;
+const uuidv4 = require('uuid/v4');
 
 var server = http.createServer(function(request, response) {
 
@@ -30,7 +31,7 @@ var server = http.createServer(function(request, response) {
         //console.log(data);
 
         if (data == "") {
-            data = JSON.stringify({id: new Date().toString()});
+            data = JSON.stringify({date: new Date().toString()});
         }
 
         mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
@@ -43,7 +44,7 @@ var server = http.createServer(function(request, response) {
             var dbo = client.db("onenotesummary");
             var query = {};
 
-            dbo.collection("pages").insertOne({body: data}, function(err, record){
+            dbo.collection("pages").insertOne({id: uuidv4(), body: data}, function(err, record){
                 if (err) {
                     console.log(err);
                     throw err

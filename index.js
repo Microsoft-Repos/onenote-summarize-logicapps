@@ -48,7 +48,7 @@ var server = http.createServer(function(request, response) {
                     console.log(err);
                     throw err
                 };
-                console.log(record);
+                console.log("Inserted record with id: " + record.insertedId);
 
                 response.writeHead(200, {"Content-Type": "text/plain"});
                 response.end("");

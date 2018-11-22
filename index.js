@@ -87,8 +87,11 @@ app.get('/page/:id', function (req, res) {
             };
             
             const entities = new Entities();
+
+            console.log(entities.decode(result[0].body.body));
+            console.log(result[0].body.body);
             
-            res.render('pages/page', {config: {apikey: apikey}, content: entities.decode(result[0].body.body)});
+            res.render('pages/page', {config: {apikey: apikey}, content: result[0].body.body});
 
             return;
         });

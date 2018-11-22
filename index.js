@@ -21,25 +21,26 @@ var server = http.createServer(function(request, response) {
         return;
     }
 
-    console.log(process.env);
+    //console.log(process.env);
 
-    var textResult = {};
-    mongoClient.connect("mongodb://vazendej-onenotesummarize:pHqGJ14AkwyYQSulCzh4HRXMp8Q2UWfa1HgHC0C2CCgbIkNJX6cAMlt3nQuqW3fdLnNoMDAjJsw78r8gEjjCmQ%3D%3D@vazendej-onenotesummarize.documents.azure.com:10255/?ssl=true", function (err, client) {
+    mongoClient.connect(process.env.CUSTOMCONNSTR_CosmosDBPrimary, function (err, client) {
         var dbo = client.db("onenotesummary");
         var query = {};
         dbo.collection("pages").find(query).toArray(function(err, result) {
             if (err) {
                 console.log(err);
-                throw err
+                throw err;
             };
             console.log(result);
-            textResult = result;
             client.close();
+
+            response.writeHead(200, {"Content-Type": "text/plain"});
+            response.end("Hello World!<br>" + JSON.stringify(result));  
+            
         });
     });
 
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    response.end("Hello World!<br>" + JSON.stringify(textResult));
+    
 
 });
 

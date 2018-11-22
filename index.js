@@ -26,9 +26,12 @@ var server = http.createServer(function(request, response) {
     var textResult = {};
     mongoClient.connect("mongodb://vazendej-onenotesummarize:pHqGJ14AkwyYQSulCzh4HRXMp8Q2UWfa1HgHC0C2CCgbIkNJX6cAMlt3nQuqW3fdLnNoMDAjJsw78r8gEjjCmQ%3D%3D@vazendej-onenotesummarize.documents.azure.com:10255/?ssl=true", function (err, client) {
         var dbo = client.db("onenotesummary");
-        var query = { name: "Page" };
+        var query = {};
         dbo.collection("pages").find(query).toArray(function(err, result) {
-            if (err) throw err;
+            if (err) {
+                console.log(err);
+                throw err
+            };
             console.log(result);
             textResult = result;
             client.close();

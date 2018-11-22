@@ -14,6 +14,7 @@ var bodyParser = require('body-parser')
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
+var jsonParser = bodyParser.json();
 
 
 app.get('/', function (req, res) {
@@ -54,7 +55,47 @@ app.get('/', function (req, res) {
 
 });
 
-var jsonParser = bodyParser.json();
+app.get('/page/:id', function (req, res) {
+    var apikey = utilities.isValidSession(req);
+    if(!apikey) {
+        res.status(400).send('Unauthorized');
+        return;
+    }
+    
+    var id= req.params.id;
+
+    mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
+
+        if (err) {
+            console.log(err);
+            res.status(500).send("Application Error")
+            return;
+        };
+
+        var dbo = client.db("onenotesummary");
+        var query = {id: id};
+
+        dbo.collection("pages").find(query).toArray(function(err, result) {
+            
+            client.close();
+            
+            if (err) {
+                console.log(err);
+                res.status(500).send("Application Error")
+                return;
+            };
+            
+            console.log(result);
+
+            res.render('pages/page', {config: {apikey: apikey}, content: result});
+
+            return;
+        });
+
+
+    });
+
+});
 
 app.post('/pages', jsonParser, function (req, res) {
 

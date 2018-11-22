@@ -2,20 +2,12 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title"><%= page.page.name %></h3>
+        <h3 class="panel-title"><%= page.page.title %></h3>
     </div>
     <div class="panel-body">
         <ul class="list-group">
             <li class="list-group-item">HTML:<br><textarea cols="100" rows="10"><%= page.body %></textarea></li>
-            <li class="list-group-item">Render:
-                    <iframe id="FileFrame-<%= page.page.id %>" src="about:blank"></iframe>
-                    <script type="text/javascript">
-                        var doc = document.getElementById('FileFrame-<%= page.page.id %>').contentWindow.document;
-                        doc.open();
-                        doc.write('<%= page.body %>');
-                        doc.close();
-                    </script>
-            </li>
+            <li class="list-group-item">Render: <a href="/page/<%= page.page.id %>/?apikey=<%= config.apikey %>" target="_blank">Click here</a></li>
             <li class="list-group-item">Section: <%= page.section.name %></li>
             <li class="list-group-item">Parent Section Group: <%= page.section.parentSectionGroup.name %></li>
             <li class="list-group-item">Parent Notebook: <%= page.section.parentNotebook.name %></li>

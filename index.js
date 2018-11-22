@@ -95,8 +95,6 @@ app.get('/list', function (req, res) {
                 return;
             };
             
-            console.log(result);
-
             client.close();
 
             res.send(result)

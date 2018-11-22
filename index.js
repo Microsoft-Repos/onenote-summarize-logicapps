@@ -30,7 +30,7 @@ var server = http.createServer(function(request, response) {
         //console.log(data);
 
         if (data == "") {
-            data = JSON.stringify({id: Date.toString()});
+            data = JSON.stringify({id: new Date().toString()});
         }
 
         mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
@@ -48,7 +48,7 @@ var server = http.createServer(function(request, response) {
                     console.log(err);
                     throw err
                 };
-                console.log("Record added as " + record._id);
+                console.log(record);
 
                 response.writeHead(200, {"Content-Type": "text/plain"});
                 response.end("");

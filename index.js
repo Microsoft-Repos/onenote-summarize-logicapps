@@ -163,7 +163,7 @@ app.post('/pages', jsonParser, function (req, res) {
                     res.status(500).send("Application Error")
                     return;
                 };
-    
+                console.log(record);
                 console.log("Inserted/updated pages record with id: " + record.insertedId);
 
                 // Insert section

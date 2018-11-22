@@ -150,70 +150,7 @@ app.post('/pages', jsonParser, function (req, res) {
             section: data.section
         };
 
-        dbo.collection("notebooks").update(
-            queryNotebooks,
-            dataNotebooks,
-            {
-              upsert: true,
-            },
-            function(err, record){
-                if (err) {
-                    console.log(err);
-                    res.status(500).send("Application Error")
-                    return;
-                };
-                
-                console.log(record);
-                console.log("Inserted/updated notebooks record with id: " + record.insertedId);
-    
-                res.send("Saved");
-                return;
-            }
-        );
-
-        if(querySectionGroups.id != ""){
-            dbo.collection("sectionGroups").update(
-                querySectionGroups,
-                dataSectionGroups,
-                {
-                  upsert: true,
-                },
-                function(err, record){
-                    if (err) {
-                        console.log(err);
-                        res.status(500).send("Application Error")
-                        return;
-                    };
-        
-                    console.log("Inserted/updated sectionGroups record with id: " + record.insertedId);
-        
-                    res.send("Saved");
-                    return;
-                }
-            );
-        }
-
-        dbo.collection("sections").update(
-            querySections,
-            dataSection,
-            {
-              upsert: true,
-            },
-            function(err, record){
-                if (err) {
-                    console.log(err);
-                    res.status(500).send("Application Error")
-                    return;
-                };
-    
-                console.log("Inserted/updated sections record with id: " + record.insertedId);
-    
-                res.send("Saved");
-                return;
-            }
-        );
-        
-
+        // Insert page
         dbo.collection("pages").update(
             queryPages,
             dataPages,
@@ -228,9 +165,70 @@ app.post('/pages', jsonParser, function (req, res) {
                 };
     
                 console.log("Inserted/updated pages record with id: " + record.insertedId);
+
+                // Insert section
+                dbo.collection("sections").update(
+                    querySections,
+                    dataSection,
+                    {
+                      upsert: true,
+                    },
+                    function(err, record){
+                        if (err) {
+                            console.log(err);
+                            res.status(500).send("Application Error")
+                            return;
+                        };
+            
+                        console.log("Inserted/updated sections record with id: " + record.insertedId);
+            
+                        // Insert notebook
+                        dbo.collection("notebooks").update(
+                            queryNotebooks,
+                            dataNotebooks,
+                            {
+                              upsert: true,
+                            },
+                            function(err, record){
+                                if (err) {
+                                    console.log(err);
+                                    res.status(500).send("Application Error")
+                                    return;
+                                };
+                                
+                                console.log("Inserted/updated notebooks record with id: " + record.insertedId);
+                    
+                                // Insert section group
+                                if(querySectionGroups.id != ""){
+                                    dbo.collection("sectionGroups").update(
+                                        querySectionGroups,
+                                        dataSectionGroups,
+                                        {
+                                          upsert: true,
+                                        },
+                                        function(err, record){
+                                            if (err) {
+                                                console.log(err);
+                                                res.status(500).send("Application Error")
+                                                return;
+                                            };
+                                
+                                            console.log("Inserted/updated sectionGroups record with id: " + record.insertedId);
+                                
+                                            res.send("Saved");
+                                            return;
+                                        }
+                                    );
+                                }else{
+                                    res.send("Saved");
+                                    return;
+                                }
+                                
+                            }
+                        );
+                    }
+                );
     
-                res.send("Saved");
-                return;
             }
         );
         

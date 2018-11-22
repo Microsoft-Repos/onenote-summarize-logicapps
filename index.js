@@ -114,23 +114,107 @@ app.post('/pages', jsonParser, function (req, res) {
         
         var data = req.body;
         if (utilities.tryParseJSON(data) !== false) data = JSON.parse(data);
-        if (data == "") data = {"page":{"id": uuidv4()}};
+        if (data == "") {
+            console.log(err);
+            res.status(500).send("Application Error")
+            return;
+        }
 
-        console.log(data);
+        var queryNotebooks = {
+            id: data.section.parentNotebook.id
+        };
 
-        var query = {
+        var querySectionGroups = {
+            id: data.section.parentSectionGroup.id
+        };
+
+        var querySections = {
+            id: data.section.id
+        };
+
+        var queryPages = {
             id: data.page.id
         };
 
+        var dataNotebooks = data.section.parentNotebook;
+        var dataSectionGroups = data.section.parentSectionGroup;
+        var dataSection = data.section;
+
         var dataPages = {
             id: data.page.id, 
+            sectionId:data.section.id,
+            sectionGroupId:data.section.parentSectionGroup.id,
+            notebookId:data.section.parentNotebook.id,
             body: data.body,
             page: data.page,
             section: data.section
         };
 
+        dbo.collection("notebooks").update(
+            queryNotebooks,
+            dataNotebooks,
+            {
+              upsert: true,
+            },
+            function(err, record){
+                if (err) {
+                    console.log(err);
+                    res.status(500).send("Application Error")
+                    return;
+                };
+    
+                console.log("Inserted notebooks record with id: " + record.insertedId);
+    
+                res.send("Saved");
+                return;
+            }
+        );
+
+        if(querySectionGroups.id != ""){
+            dbo.collection("sectionGroups").update(
+                querySectionGroups,
+                dataSectionGroups,
+                {
+                  upsert: true,
+                },
+                function(err, record){
+                    if (err) {
+                        console.log(err);
+                        res.status(500).send("Application Error")
+                        return;
+                    };
+        
+                    console.log("Inserted sectionGroups record with id: " + record.insertedId);
+        
+                    res.send("Saved");
+                    return;
+                }
+            );
+        }
+
+        dbo.collection("sections").update(
+            querySections,
+            dataSection,
+            {
+              upsert: true,
+            },
+            function(err, record){
+                if (err) {
+                    console.log(err);
+                    res.status(500).send("Application Error")
+                    return;
+                };
+    
+                console.log("Inserted sections record with id: " + record.insertedId);
+    
+                res.send("Saved");
+                return;
+            }
+        );
+        
+
         dbo.collection("pages").update(
-            query,
+            queryPages,
             dataPages,
             {
               upsert: true,
@@ -142,26 +226,12 @@ app.post('/pages', jsonParser, function (req, res) {
                     return;
                 };
     
-                console.log("Inserted record with id: " + record.insertedId);
+                console.log("Inserted pages record with id: " + record.insertedId);
     
                 res.send("Saved");
                 return;
             }
         );
-
-        /*dbo.collection("pages").insertOne({id: data.page.id, body: data}, function(err, record){
-            if (err) {
-                console.log(err);
-                res.status(500).send("Application Error")
-                return;
-            };
-
-            console.log("Inserted record with id: " + record.insertedId);
-
-            res.send("Saved");
-            return;
-        });*/
-
         
     }); 
 });

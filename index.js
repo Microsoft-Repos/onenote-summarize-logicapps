@@ -14,7 +14,13 @@ var server = http.createServer(function(request, response) {
     var query = url_parts.query;
     var apikey = query.apikey;
 
-    console.log(query);
+    if (apikey === undefined || process.env.APPSETTING_apikey === undefined || apikey != process.env.APPSETTING_apikey) {
+        response.writeHead(400, {"Content-Type": "text/plain"});
+        response.end("Unauthorized");
+        return;
+    }
+
+
     response.writeHead(200, {"Content-Type": "text/plain"});
     response.end("Hello World!: " + apikey + " " + process.env.APPSETTING_apikey);
 

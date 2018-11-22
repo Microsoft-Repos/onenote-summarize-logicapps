@@ -2,9 +2,9 @@
   "name": "vadimzendejas--onenote-summarize-logicapps",
   "version": "0.1.0",
   "description": "One Note Summarization tool for Logic Apps",
-  "main": "index.php",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -13,7 +13,6 @@
   "author": "Vadim Zendejas",
   "license": "Apache-2.0",
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-php": "^1.5.1"
+    "grunt": "^1.0.1"
   }
 }

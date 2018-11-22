@@ -92,12 +92,7 @@ app.get('/pages', function (req, res) {
                 return;
             };
             
-            var responseArray = [];
-            for (var i=0; i<result.length; i++){
-                responseArray.push(JSON.parse(result[i].body));
-            }
-
-            res.send(responseArray)
+            res.send(result)
 
             return;
         });

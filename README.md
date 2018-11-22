@@ -8,3 +8,8 @@ This tool generates summary pages per Section on OneNote for business trough the
 
 Please setup an Application Settings with the `apikey` variable needed to access the application.
 
+## Example CURL query
+
+```bash
+curl -X POST -d '{"body":"Oh yeah babay", "page":{"id":"XYZ01234"},"section":{"id": "SEC12345","parentSectionGroup":{"id":"SECGP45677"}, "parentNotebook":{"id":"NOTABCD"}}}' -H "Content-Type: application/json" "https://onenote-summarize.azurewebsites.net/pages?apikey=APIKEY"
+```

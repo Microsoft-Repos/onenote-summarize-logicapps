@@ -164,7 +164,7 @@ app.post('/pages', jsonParser, function (req, res) {
                     return;
                 };
                 console.log(record);
-                console.log("Inserted/updated pages record with id: " + record.insertedId);
+                console.log("Inserted/updated pages record with id: " + queryPages.id);
 
                 // Insert section
                 dbo.collection("sections").update(
@@ -180,7 +180,7 @@ app.post('/pages', jsonParser, function (req, res) {
                             return;
                         };
             
-                        console.log("Inserted/updated sections record with id: " + record.insertedId);
+                        console.log("Inserted/updated sections record with id: " + querySections.id);
             
                         // Insert notebook
                         dbo.collection("notebooks").update(
@@ -196,7 +196,7 @@ app.post('/pages', jsonParser, function (req, res) {
                                     return;
                                 };
                                 
-                                console.log("Inserted/updated notebooks record with id: " + record.insertedId);
+                                console.log("Inserted/updated notebooks record with id: " + queryNotebooks.id);
                     
                                 // Insert section group
                                 if(querySectionGroups.id != ""){
@@ -213,7 +213,7 @@ app.post('/pages', jsonParser, function (req, res) {
                                                 return;
                                             };
                                 
-                                            console.log("Inserted/updated sectionGroups record with id: " + record.insertedId);
+                                            console.log("Inserted/updated sectionGroups record with id: " + querySectionGroups.id);
                                 
                                             res.send("Saved");
                                             return;

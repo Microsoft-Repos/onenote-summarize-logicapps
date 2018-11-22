@@ -30,10 +30,6 @@ var server = http.createServer(function(request, response) {
         
         //console.log(data);
 
-        if (data == "") {
-            data = JSON.stringify({date: new Date().toString()});
-        }
-
         mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
 
             if (err) {
@@ -43,6 +39,10 @@ var server = http.createServer(function(request, response) {
     
             var dbo = client.db("onenotesummary");
             var query = {};
+
+            if (tryParseJSON(data) !== false) data = JSON.parse(data);
+            if (data == "") data = {};
+            
 
             dbo.collection("pages").insertOne({id: uuidv4(), body: data}, function(err, record){
                 if (err) {
@@ -74,6 +74,24 @@ var server = http.createServer(function(request, response) {
     
 
 });
+
+
+function tryParseJSON (jsonString){
+    try {
+        var o = JSON.parse(jsonString);
+
+        // Handle non-exception-throwing cases:
+        // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+        // but... JSON.parse(null) returns null, and typeof null === "object", 
+        // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+        if (o && typeof o === "object") {
+            return o;
+        }
+    }
+    catch (e) { }
+
+    return false;
+};
 
 var port = process.env.PORT || 1337;
 server.listen(port);

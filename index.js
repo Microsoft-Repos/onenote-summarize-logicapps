@@ -21,10 +21,10 @@ var server = http.createServer(function(request, response) {
         return;
     }
 
-    console.log(process.env.CUSTOMCONNSTR_CosmosDBPrimary);
+    console.log(process.env.APPSETTING_connectionStringPrimary);
 
     var textResult = {};
-    mongoClient.connect(process.env.CUSTOMCONNSTR_CosmosDBPrimary, function (err, client) {
+    mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
 
         if (err) {
             console.log(err);

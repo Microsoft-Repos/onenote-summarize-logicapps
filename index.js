@@ -10,8 +10,7 @@ var app = express();
 var utilities = require('./utilities.js');
 var mongoClient = require("mongodb").MongoClient;
 const uuidv4 = require('uuid/v4');
-var bodyParser = require('body-parser')
-const Entities = require('html-entities').AllHtmlEntities;
+var bodyParser = require('body-parser');
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -85,11 +84,6 @@ app.get('/page/:id', function (req, res) {
                 res.status(500).send("Application Error")
                 return;
             };
-            
-            const entities = new Entities();
-
-            console.log(entities.decode(result[0].body.body));
-            console.log(result[0].body.body);
             
             res.render('pages/page', {config: {apikey: apikey}, content: result[0].body.body});
 

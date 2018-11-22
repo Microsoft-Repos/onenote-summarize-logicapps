@@ -44,7 +44,7 @@ var server = http.createServer(function(request, response) {
             if (data == "") data = {};
             
 
-            dbo.collection("pages").insertOne({id: uuidv4(), body: data}, function(err, record){
+            dbo.collection("pages").insertOne({id: uuidv4(), body: JSON.stringify(data)}, function(err, record){
                 if (err) {
                     console.log(err);
                     throw err

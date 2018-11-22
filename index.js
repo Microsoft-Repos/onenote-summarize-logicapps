@@ -30,7 +30,7 @@ var server = http.createServer(function(request, response) {
         //console.log(data);
 
         if (data == "") {
-            data = {id: Date.toString()};
+            data = JSON.stringify({id: Date.toString()});
         }
 
         mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {

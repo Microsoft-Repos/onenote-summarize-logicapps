@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
 
 var jsonParser = bodyParser.json();
 
-app.get('/save', jsonParser, function (req, res) {
+app.post('/pages', jsonParser, function (req, res) {
 
     if(!utilities.isValidSession(req)) {
         res.status(400).send('Unauthorized');
@@ -51,7 +51,7 @@ app.get('/save', jsonParser, function (req, res) {
                 res.status(500).send("Application Error")
                 return;
             };
-            
+
             console.log("Inserted record with id: " + record.insertedId);
 
             res.send("Saved");
@@ -64,7 +64,7 @@ app.get('/save', jsonParser, function (req, res) {
     //res.send(req.body);
 });
 
-app.get('/list', function (req, res) {
+app.get('/pages', function (req, res) {
 
     if(!utilities.isValidSession(req)) {
         res.status(400).send('Unauthorized');

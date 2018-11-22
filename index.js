@@ -11,6 +11,7 @@ var utilities = require('./utilities.js');
 var mongoClient = require("mongodb").MongoClient;
 const uuidv4 = require('uuid/v4');
 var bodyParser = require('body-parser')
+const Entities = require('html-entities').AllHtmlEntities;
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -85,8 +86,9 @@ app.get('/page/:id', function (req, res) {
                 return;
             };
             
+            const entities = new Entities();
             
-            res.render('pages/page', {config: {apikey: apikey}, content: decodeURIComponent(result[0].body.body)});
+            res.render('pages/page', {config: {apikey: apikey}, content: entities.decode(result[0].body.body)});
 
             return;
         });

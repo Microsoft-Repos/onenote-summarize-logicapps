@@ -116,7 +116,38 @@ app.post('/pages', jsonParser, function (req, res) {
         if (utilities.tryParseJSON(data) !== false) data = JSON.parse(data);
         if (data == "") data = {"page":{"id": uuidv4()}};
 
-        dbo.collection("pages").insertOne({id: data.page.id, body: data}, function(err, record){
+        var query = {
+            id: data.page.id
+        };
+        
+        var dataPages = {
+            id: data.page.id, 
+            body: data.body,
+            page: data.page,
+            section: data.section
+        };
+
+        dbo.collection("pages").update(
+            query,
+            dataPages,
+            {
+              upsert: true,
+            },
+            function(err, record){
+                if (err) {
+                    console.log(err);
+                    res.status(500).send("Application Error")
+                    return;
+                };
+    
+                console.log("Inserted record with id: " + record.insertedId);
+    
+                res.send("Saved");
+                return;
+            }
+        );
+
+        /*dbo.collection("pages").insertOne({id: data.page.id, body: data}, function(err, record){
             if (err) {
                 console.log(err);
                 res.status(500).send("Application Error")
@@ -127,12 +158,10 @@ app.post('/pages', jsonParser, function (req, res) {
 
             res.send("Saved");
             return;
-        });
+        });*/
 
         
     }); 
-    //console.log(req.body);
-    //res.send(req.body);
 });
 
 app.get('/pages', function (req, res) {

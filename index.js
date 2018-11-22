@@ -7,7 +7,7 @@
 
 var http = require('http');
 var url = require('url');
-//var mongoClient = require("mongodb").MongoClient;
+var mongoClient = require("mongodb").MongoClient;
 
 var server = http.createServer(function(request, response) {
 
@@ -26,36 +26,45 @@ var server = http.createServer(function(request, response) {
         data += chunk.toString();
     });
     request.on('end', function() {
-        console.log(data);
-        response.writeHead(200, {"Content-Type": "text/plain"});
-        response.end(JSON.stringify(data));
-    });
+        
+        //console.log(data);
 
-   // console.log(request);
+        mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
 
-    
-    
-    /* mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
-
-        if (err) {
-            console.log(err);
-            throw err;
-        };
-
-        var dbo = client.db("onenotesummary");
-        var query = {};
-        dbo.collection("pages").find(query).toArray(function(err, result) {
             if (err) {
                 console.log(err);
-                throw err
+                throw err;
             };
-            console.log(result);
-            client.close();
+    
+            var dbo = client.db("onenotesummary");
+            var query = {};
 
-            response.writeHead(200, {"Content-Type": "text/plain"});
-            response.end(JSON.stringify(result));
+            dbo.collection("pages").insertOne(data, function(err, record){
+                if (err) {
+                    console.log(err);
+                    throw err
+                };
+                console.log("Record added as " + record._id);
+
+                response.writeHead(200, {"Content-Type": "text/plain"});
+                response.end("");
+            });
+
+            /*dbo.collection("pages").find(query).toArray(function(err, result) {
+                if (err) {
+                    console.log(err);
+                    throw err
+                };
+                console.log(result);
+                client.close();
+    
+                response.writeHead(200, {"Content-Type": "text/plain"});
+                response.end(JSON.stringify(data));
+            });*/
         });
-    }); */
+
+    });
+
 
     
 

@@ -86,7 +86,7 @@ app.get('/page/:id', function (req, res) {
             };
             
             
-            res.render('pages/page', {config: {apikey: apikey}, content: result[0].body.body});
+            res.render('pages/page', {config: {apikey: apikey}, content: decodeURIComponent(result[0].body.body)});
 
             return;
         });

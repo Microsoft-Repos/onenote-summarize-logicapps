@@ -7,7 +7,7 @@
 
 var http = require('http');
 var url = require('url');
-var mongoClient = require("mongodb").MongoClient;
+//var mongoClient = require("mongodb").MongoClient;
 
 var server = http.createServer(function(request, response) {
 
@@ -21,10 +21,12 @@ var server = http.createServer(function(request, response) {
         return;
     }
 
-    console.log(process.env.APPSETTING_connectionStringPrimary);
+    console.log(request.body);
 
-    var textResult = {};
-    mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    response.end(JSON.stringify(request.body));
+    
+    /* mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
 
         if (err) {
             console.log(err);
@@ -39,13 +41,12 @@ var server = http.createServer(function(request, response) {
                 throw err
             };
             console.log(result);
-            textResult = result;
             client.close();
 
             response.writeHead(200, {"Content-Type": "text/plain"});
-            response.end("Hello World!<br>" + JSON.stringify(textResult));
+            response.end(JSON.stringify(result));
         });
-    });
+    }); */
 
     
 

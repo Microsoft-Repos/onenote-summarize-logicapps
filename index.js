@@ -43,7 +43,7 @@ var server = http.createServer(function(request, response) {
             var dbo = client.db("onenotesummary");
             var query = {};
 
-            dbo.collection("pages").insertOne(JSON.parse(data), function(err, record){
+            dbo.collection("pages").insertOne({body: data}, function(err, record){
                 if (err) {
                     console.log(err);
                     throw err

@@ -81,7 +81,8 @@ app.get('/list', function (req, res) {
 
         if (err) {
             console.log(err);
-            throw err;
+            res.status(500).send("Application Error")
+            return;
         };
 
         var dbo = client.db("onenotesummary");
@@ -90,15 +91,20 @@ app.get('/list', function (req, res) {
         dbo.collection("pages").find(query).toArray(function(err, result) {
             if (err) {
                 console.log(err);
-                throw err
+                res.status(500).send("Application Error")
+                return;
             };
             console.log(result);
             client.close();
 
             res.send(data)
-
+            return;
         });
+
+
     });
+
+    res.send('');
     
 });
 

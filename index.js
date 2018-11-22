@@ -97,7 +97,12 @@ app.get('/list', function (req, res) {
             
             client.close();
 
-            res.send(result)
+            var responseArray = [];
+            for (var i=0; i<result.length; i++){
+                responseArray.push(JSON.parse(result[i].body));
+            }
+
+            res.send(responseArray)
 
             return;
         });

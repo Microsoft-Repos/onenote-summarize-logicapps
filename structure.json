@@ -1,0 +1,41 @@
+{
+    "body": "",
+    "page": {
+        "id": "",
+        "self": "",
+        "createdTime": "",
+        "title": "",
+        "links": {
+            "oneNoteClientUrl": {
+                "href": ""
+              },
+              "oneNoteWebUrl": {
+                "href": ""
+              }
+        }
+    },
+    "section": {
+        "id": "",
+        "self": "",
+        "createdTime": "",
+        "name": "",
+        "links": {
+            "oneNoteClientUrl": {
+              "href": ""
+            },
+            "oneNoteWebUrl": {
+              "href": ""
+            }
+        },
+        "parentNotebook": {
+            "id": "",
+            "name": "",
+            "self": ""
+        },
+        "parentSectionGroup": {
+            "id": "",
+            "name": "",
+            "self": ""
+        }
+    }
+}

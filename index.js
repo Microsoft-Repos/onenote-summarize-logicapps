@@ -43,9 +43,9 @@ app.post('/pages', jsonParser, function (req, res) {
         
         var data = req.body;
         if (utilities.tryParseJSON(data) !== false) data = JSON.parse(data);
-        if (data == "") data = {};
+        if (data == "") data = {"page":{"id": uuidv4()}};
 
-        dbo.collection("pages").insertOne({id: uuidv4(), body: JSON.stringify(data)}, function(err, record){
+        dbo.collection("pages").insertOne({id: data.page.id, body: data}, function(err, record){
             if (err) {
                 console.log(err);
                 res.status(500).send("Application Error")

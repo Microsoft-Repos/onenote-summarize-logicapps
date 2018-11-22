@@ -116,10 +116,12 @@ app.post('/pages', jsonParser, function (req, res) {
         if (utilities.tryParseJSON(data) !== false) data = JSON.parse(data);
         if (data == "") data = {"page":{"id": uuidv4()}};
 
+        console.log(data);
+
         var query = {
             id: data.page.id
         };
-        
+
         var dataPages = {
             id: data.page.id, 
             body: data.body,

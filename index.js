@@ -21,10 +21,10 @@ var server = http.createServer(function(request, response) {
         return;
     }
 
-    console.log(request.body);
+    console.log(request);
 
     response.writeHead(200, {"Content-Type": "text/plain"});
-    response.end(JSON.stringify(request.body));
+    response.end(JSON.stringify(request));
     
     /* mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
 

@@ -21,22 +21,29 @@ var server = http.createServer(function(request, response) {
         return;
     }
 
-    //console.log(process.env);
+    console.log(process.env.CUSTOMCONNSTR_CosmosDBPrimary);
 
+    var textResult = {};
     mongoClient.connect(process.env.CUSTOMCONNSTR_CosmosDBPrimary, function (err, client) {
+
+        if (err) {
+            console.log(err);
+            throw err;
+        };
+
         var dbo = client.db("onenotesummary");
         var query = {};
         dbo.collection("pages").find(query).toArray(function(err, result) {
             if (err) {
                 console.log(err);
-                throw err;
+                throw err
             };
             console.log(result);
+            textResult = result;
             client.close();
 
             response.writeHead(200, {"Content-Type": "text/plain"});
-            response.end("Hello World!<br>" + JSON.stringify(result));  
-            
+            response.end("Hello World!<br>" + JSON.stringify(textResult));
         });
     });
 

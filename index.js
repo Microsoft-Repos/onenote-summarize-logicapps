@@ -10,6 +10,7 @@ var app = express();
 var utilities = require('./utilities.js');
 var mongoClient = require("mongodb").MongoClient;
 const uuidv4 = require('uuid/v4');
+var bodyParser = require('body-parser')
 
 
 
@@ -21,53 +22,46 @@ app.get('/', function (req, res) {
     res.send("Hello world!")
 });
 
-app.get('/save', function (req, res) {
+var jsonParser = bodyParser.json();
+
+app.get('/save', jsonParser, function (req, res) {
+
     if(!utilities.isValidSession(req)) {
         res.status(400).send('Unauthorized');
         return;
     }
 
-    console.log(req);
-
-    /* mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
+    mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
 
         if (err) {
             console.log(err);
-            throw err;
+            res.status(500).send("Application Error")
+            return;
         };
 
         var dbo = client.db("onenotesummary");
-        var query = {};
-
+        
+        var data = req.body;
         if (utilities.tryParseJSON(data) !== false) data = JSON.parse(data);
         if (data == "") data = {};
-        
 
         dbo.collection("pages").insertOne({id: uuidv4(), body: JSON.stringify(data)}, function(err, record){
             if (err) {
                 console.log(err);
-                throw err
+                res.status(500).send("Application Error")
+                return;
             };
+            
             console.log("Inserted record with id: " + record.insertedId);
 
-            response.writeHead(200, {"Content-Type": "text/plain"});
-            response.end("");
+            res.send("Saved");
+            return;
         });
 
-        dbo.collection("pages").find(query).toArray(function(err, result) {
-            if (err) {
-                console.log(err);
-                throw err
-            };
-            console.log(result);
-            client.close();
-
-            response.writeHead(200, {"Content-Type": "text/plain"});
-            response.end(JSON.stringify(data));
-        });
-    }); */
-
-    res.send(req.body);
+        
+    }); 
+    //console.log(req.body);
+    //res.send(req.body);
 });
 
 app.get('/list', function (req, res) {
@@ -89,14 +83,15 @@ app.get('/list', function (req, res) {
         var query = {};
 
         dbo.collection("pages").find(query).toArray(function(err, result) {
+            
+            client.close();
+            
             if (err) {
                 console.log(err);
                 res.status(500).send("Application Error")
                 return;
             };
             
-            client.close();
-
             var responseArray = [];
             for (var i=0; i<result.length; i++){
                 responseArray.push(JSON.parse(result[i].body));

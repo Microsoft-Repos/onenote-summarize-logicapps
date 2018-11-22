@@ -94,17 +94,18 @@ app.get('/list', function (req, res) {
                 res.status(500).send("Application Error")
                 return;
             };
+            
             console.log(result);
+
             client.close();
 
-            res.send(data)
+            res.send(result)
+
             return;
         });
 
 
     });
-
-    res.send('');
     
 });
 

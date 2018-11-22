@@ -71,6 +71,7 @@ app.get('/save', function (req, res) {
 });
 
 app.get('/list', function (req, res) {
+
     if(!utilities.isValidSession(req)) {
         res.status(400).send('Unauthorized');
         return;
@@ -102,6 +103,6 @@ app.get('/list', function (req, res) {
 });
 
 
-var port = process.env.PORT || 1338;
+var port = process.env.PORT || 1337;
 app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
 

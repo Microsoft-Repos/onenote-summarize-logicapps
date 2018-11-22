@@ -15,7 +15,7 @@
     <h1>Pages Display</h1>
     <div>
             <% pages.forEach(function(page){ %>
-                <%- include('../partials/onpage', {page: page}); %>
+                <%- include('../partials/onpage', {page: page.body}); %>
             <% }); %>
     </div>
 </main>

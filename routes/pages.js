@@ -7,8 +7,8 @@ var router = express.Router();
 var jsonParser = bodyParser.json();
 
 // Routes
-router.get('/page/:id', pages.pageGet);
-router.post('/pages', jsonParser, pages.pagePost);
-router.get('/pages', pages.pagesGet);
+router.get('/:id', pages.pageGet);
+router.post('/', jsonParser, pages.pagePost);
+router.get('/', pages.pagesGet);
 
 module.exports = router;

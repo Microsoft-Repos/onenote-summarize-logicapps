@@ -6,13 +6,15 @@
 */
 
 var express = require('express')
-var routes= require('./routes');
+var routeIndex= require('./routes/index');
+var routePages= require('./routes/pages');
 var app = express();
 
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-app.use('/', routes);
+app.use('/', routeIndex);
+app.use('/pages', routePages);
 
 // export app to module
 module.exports = app;

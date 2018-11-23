@@ -46,7 +46,7 @@ exports.pagePost = function(req, res){
         return;
     }
 
-    mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
+    mongoClient.connect(utilities.getDBConnectionString(), function (err, client) {
 
         if (err) {
             console.log(err);

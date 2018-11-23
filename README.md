@@ -8,6 +8,10 @@ This tool generates summary pages per Section on OneNote for business trough the
 
 Please setup an Application Settings with the `apikey` variable needed to access the application.
 
+## References
+
+* https://www.npmjs.com/package/config
+
 ## Example CURL query
 
 ```bash

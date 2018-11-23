@@ -1,11 +1,11 @@
-//var url = require('url');
+var config = require('config');
 
 exports.isValidSession = function(request) {
     //var url_parts = url.parse(request.url, true);
     //var query = url_parts.query;
     //var apikey = query.apikey;
     var apikey = request.query.apikey;
-    var originalApiKey = process.env.APPSETTING_apikey || '42c080a3-a136-42da-93e5-91d1d2b47eec';
+    var originalApiKey = process.env.APPSETTING_apikey || config.get('App.apikey');
 
     if (apikey === undefined || apikey != originalApiKey) {
         return false;
@@ -30,3 +30,17 @@ exports.tryParseJSON = function(jsonString) {
 
     return false;
 };
+
+exports.getDBConnectionString = function() {
+
+    if(process.env.APPSETTING_connectionStringPrimary && process.env.APPSETTING_connectionStringPrimary !== undefined) {
+        return process.env.APPSETTING_connectionStringPrimary;
+    }
+
+    if (config.has('App.DbConnectionStringPrimary')) {
+        return config.get('App.DbConnectionStringPrimary');
+    }
+
+    return false;
+     
+}

@@ -1,61 +1,7 @@
-/* Vadim Zendejas
-
- * Project: OneNote Summarize
- * Engineer: Vadim Zendejas
- * Date: Oct, 2018 
-*/
-
-var express = require('express')
-var app = express();
-var utilities = require('./utilities.js');
+var utilities = require('../libs/utilities');
 var mongoClient = require("mongodb").MongoClient;
-const uuidv4 = require('uuid/v4');
-var bodyParser = require('body-parser');
 
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-var jsonParser = bodyParser.json();
-
-
-app.get('/', function (req, res) {
-    var apikey = utilities.isValidSession(req);
-    if(!apikey) {
-        res.status(400).send('Unauthorized');
-        return;
-    }
-    
-    mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
-
-        if (err) {
-            console.log(err);
-            res.status(500).send("Application Error")
-            return;
-        };
-
-        var dbo = client.db("onenotesummary");
-        var query = {};
-
-        dbo.collection("pages").find(query).toArray(function(err, result) {
-            
-            client.close();
-            
-            if (err) {
-                console.log(err);
-                res.status(500).send("Application Error")
-                return;
-            };
-            
-            res.render('pages/index', {config: {apikey: apikey}, pages: result});
-
-            return;
-        });
-
-
-    });
-
-});
-
-app.get('/page/:id', function (req, res) {
+exports.pageGet = function(req, res){
     var apikey = utilities.isValidSession(req);
     if(!apikey) {
         res.status(400).send('Unauthorized');
@@ -64,7 +10,7 @@ app.get('/page/:id', function (req, res) {
     
     var id= req.params.id;
 
-    mongoClient.connect(process.env.APPSETTING_connectionStringPrimary, function (err, client) {
+    mongoClient.connect(utilities.getDBConnectionString(), function (err, client) {
 
         if (err) {
             console.log(err);
@@ -92,11 +38,9 @@ app.get('/page/:id', function (req, res) {
 
 
     });
+};
 
-});
-
-app.post('/pages', jsonParser, function (req, res) {
-
+exports.pagePost = function(req, res){
     if(!utilities.isValidSession(req)) {
         res.status(400).send('Unauthorized');
         return;
@@ -163,7 +107,7 @@ app.post('/pages', jsonParser, function (req, res) {
                     res.status(500).send("Application Error")
                     return;
                 };
-                console.log(record);
+                
                 console.log("Inserted/updated pages record with id: " + queryPages.id);
 
                 // Insert section
@@ -233,10 +177,9 @@ app.post('/pages', jsonParser, function (req, res) {
         );
         
     }); 
-});
+};
 
-app.get('/pages', function (req, res) {
-
+exports.pagesGet = function(req, res){
     if(!utilities.isValidSession(req)) {
         res.status(400).send('Unauthorized');
         return;
@@ -270,10 +213,4 @@ app.get('/pages', function (req, res) {
 
 
     });
-    
-});
-
-
-var port = process.env.PORT || 1337;
-app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
-
+};

@@ -2,6 +2,7 @@
 
 # Specifc Application files
 example*.json
+config/local*
 
 # Logs
 logs
